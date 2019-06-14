@@ -1,9 +1,5 @@
 # Test::Unit::Benchmark
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/test/unit/benchmark`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -22,7 +18,45 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require "test/unit"
+require "test/unit/benchmark"
+
+class BenchmarkTest < Test::Unit::TestCase
+  def test_perform_under_sec
+    assert_perform_under(1) { sleep 0.1 }
+  end
+
+  def test_ultra_fast
+    assert_perform_under_ns(1) do
+      # do ultra fast
+    end
+  end
+end
+```
+
+### TimeUnit Shorthand
+
+```ruby
+class BenchmarkTest < Test::Unit::TestCase
+  using ::Test::Unit::Benchmark::TimeUnitShorthand
+  def test_ultra_fast
+    assert_perform_under(1.ns) do
+      # do ultra fast
+    end
+  end
+end
+```
+
+### Configuration
+
+```ruby
+Test::Unit::Benchmark.configure do |config|
+  config.repeat = 3 # times
+  config.warmup = 2 # times
+  config.subprocess = true # boolean
+end
+```
 
 ## Development
 
@@ -32,7 +66,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/test-unit-benchmark. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/sunaot/test-unit-benchmark. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,4 +74,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Test::Unit::Benchmark project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/test-unit-benchmark/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Test::Unit::Benchmark project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/sunaot/test-unit-benchmark/blob/master/CODE_OF_CONDUCT.md).
